@@ -15,10 +15,10 @@ class App extends Component {
   state = {
     start: false,
     questionBank: QuestionBank,
-    // colorChange : {
-    //     color: "#446d8b",
-    //     stateColor:undefined,
-    // }
+    quizScore: 0,
+    index: 0,
+    disable: false,
+    // colorChange:undefined,
   };
 
   componentChange = () => {
@@ -34,18 +34,19 @@ class App extends Component {
     console.log(option);
     if (question.answer == option) {
       console.log("yes");
-      this.setState({colorChange:true})
-      return true;
+      this.setState({ quizScore: this.state.quizScore + 1, disable: true });
     } else {
       console.log("Wrong");
-      this.setState({colorChange: false})
-      console.log(this.state.colorChange)
-      return false;
+      this.setState({ disable: true });
     }
   };
 
+  nextQuestion = () => {
+    this.setState({ index: this.state.index + 1, disable: false });
+    console.log(this.state.index)
+  };
+
   render() {
-  //  var cover = this.state.colorChange.stateColor === false ? "red":"green";
     const startView = (
       <View style={styles.startButtonContainer}>
         <Text style={styles.startContainerText}>
@@ -55,58 +56,102 @@ class App extends Component {
       </View>
     );
 
-    const questionsView = (
-       cover = this.state.colorChange == false ? "red":"green",
-      <View style={styles.questionsViewContainer}>
-        {/* <Text style={styles.questionsViewContainerText}>
-        </Text> */}
-        <View style={scoreView}></View>
-        <ScrollView style={styles.scrollViewContainer}>
-          {this.state.questionBank.map((question, indexQ) => (
-            <View>
-              <Text style={styles.scrollviewText}>{question.question}</Text>
-              {this.state.questionBank[indexQ].options.map(
-                (options, indexO) => (
-                  <TouchableOpacity
-                    onPress={() => this.checkAnswer(options, question)} 
-                    >
-                      <View style={{...styles.scrollViewItem,backgroundColor:cover}}> 
-                        <Text style={styles.scrollviewItemText}>{options}</Text>
-
-                      </View>
-                  </TouchableOpacity>
-                )
-              )}
-            </View>
-          ))}
-        </ScrollView>
-        <StartEndButton text="End" onPress={this.componentChange} />
-      </View>
-    );
+    const questionsView =
+      //  cover = this.state.colorChange == undefined ? "red":"green",
+      // Score = 0,
+      ((indexView = this.state.index + 1),
+      (currentQuestion = this.state.questionBank[this.state.index]),
+      (score = this.state.quizScore),
+      (
+        <View style={styles.questionViewContainer}>
+          <View style={styles.scoreContainer}>
+            <Text style={styles.scoreTextContainer}>Score : {score}</Text>
+            <Text style={styles.scoreTextContainer}>
+              Question : {indexView} / 5
+            </Text>
+          </View>
+          <View style={styles.questionContainer}>
+            <Text style={styles.questionContainerText}>
+              {currentQuestion.question}
+            </Text>
+            {currentQuestion.options.map((options, index) => (
+              <TouchableOpacity
+                disabled={this.state.disable}
+                key={currentQuestion.id}
+                onPress={() => this.checkAnswer(options, currentQuestion)}
+              >
+                <View
+                  style={{
+                    ...styles.optionContainer /*,backgroundColor:cover*/,
+                  }}
+                >
+                  <Text style={styles.questionContainerText}>{options}</Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+          <View style={styles.nextButtonContainer}>
+            <StartEndButton text="Next" onPress={this.nextQuestion} />
+          </View>
+        </View>
+      ));
 
     return (
       <View style={styles.mainContainer}>
         {this.state.start === false ? startView : questionsView}
-        {/* <ScrollView style={styles.scrollViewContainer}>
-             {this.state.questionBank.map((question,index)=>(
-               <View>
-                  <Text style = {styles.scrollviewText}>{question.question}</Text>
-                  {this.state.questionBank[index].options.map((options,index)=>(
-                    <TouchableOpacity>
-                    <View style={styles.scrollViewItem}>
-                       <Text>{options}</Text>
-                   </View>
-                 </TouchableOpacity>
-                  ))}
-               </View>
-             ))}
-        </ScrollView> */}
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  optionContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: "#446d8b",
+    alignSelf: "center",
+    padding: 10,
+    margin: 5,
+    width: "90%",
+    borderRadius: 10,
+    // paddingBottom:30,
+  },
+  optionContainerText: {
+    fontSize: 18,
+    color: "white",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "90%",
+  },
+  questionContainer: {
+    paddingTop: 20,
+    alignItems: "center",
+    paddingBottom: 30,
+  },
+  questionContainerText: {
+    color: "white",
+    fontSize: 22,
+  },
+  nextButtonContainer: {
+    alignItems: "center",
+  },
+  questionViewContainer: {
+    // Kerna hai kuch tou
+    paddingTop: 50,
+    justifyContent: "center",
+    backgroundColor: "black",
+    width: "90%",
+  },
+  scoreContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    color: "white",
+  },
+  scoreTextContainer: {
+    fontSize: 20,
+    paddingBottom: 20,
+    color: "white",
+  },
   mainContainer: {
     flex: 1,
     backgroundColor: "black",
@@ -122,66 +167,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingBottom: 20,
     color: "white",
-  },
-  questionsViewContainer: {
-    // Kerna hai kuch tou
-    paddingTop: 50,
-    alignItems: "center",
-  },
-  questionsViewContainerText: {
-    fontSize: 20,
-    paddingBottom: 20,
-    color: "white",
-  },
-  scrollViewContainer: {
-    // backgroundColor:"grey",
-    width: "90%",
-    // height:"50%",
-    paddingTop: 40,
-    // justifyContent:"center",
-    // alignItems:"center",
-  },
-  scrollViewItem: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    backgroundColor: "#446d8b",
-    alignSelf: "center",
-    padding: 10,
-    margin: 5,
-    width: "90%",
-    borderRadius: 10,
-    paddingBottom:50,
-  },
-  scrollViewQuestion: {
-    // flexDirection: "row",
-    justifyContent: "space-between",
-    backgroundColor: "darkgrey",
-    alignSelf: "center",
-    padding: 10,
-    margin: 5,
-    width: "90%",
-    borderRadius: 10,
-  },
-  scrollviewQuestionText: {
-    fontSize: 15,
-    color: "white",
-    paddingLeft: 15,
-  },
-  scrollviewText: {
-    fontSize: 22,
-    color: "#dbe1e7",
-    paddingLeft: 15,
-  },
-  scrollviewItemText: {
-    fontSize: 18,
-    color: "black",
-    // paddingLeft: 15,
-  },
-  redStyle:{
-    backgroundColor:"red"
-  },
-  greenStyle:{
-    backgroundColor:"green"
   },
 });
 

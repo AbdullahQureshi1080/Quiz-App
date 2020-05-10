@@ -1,0 +1,86 @@
+
+  // questionsViewContainerText: {
+  //   fontSize: 20,
+  //   paddingBottom: 20,
+  //   color: "white",
+  // },
+  // scrollViewContainer: {
+  //   // backgroundColor:"grey",
+  //   width: "90%",
+  //   // height:"50%",
+  //   paddingTop: 40,
+  //   // justifyContent:"center",
+  //   // alignItems:"center",
+  // },
+  // scrollViewItem: {
+  //   flexDirection: "row",
+  //   justifyContent: "space-between",
+  //   backgroundColor: "#446d8b",
+  //   alignSelf: "center",
+  //   padding: 10,
+  //   margin: 5,
+  //   width: "90%",
+  //   borderRadius: 10,
+  //   paddingBottom: 50,
+  // },
+  // scrollViewQuestion: {
+  //   // flexDirection: "row",
+  //   justifyContent: "space-between",
+  //   backgroundColor: "darkgrey",
+  //   alignSelf: "center",
+  //   padding: 10,
+  //   margin: 5,
+  //   width: "90%",
+  //   borderRadius: 10,
+  // },
+  // scrollviewQuestionText: {
+  //   fontSize: 15,
+  //   color: "white",
+  //   paddingLeft: 15,
+  // },
+  // scrollviewText: {
+  //   fontSize: 22,
+  //   color: "#dbe1e7",
+  //   paddingLeft: 15,
+  // },
+  // scrollviewItemText: {
+  //   fontSize: 18,
+  //   color: "black",
+  //   // paddingLeft: 15,
+  // },
+});
+
+
+
+//  <View style={styles.questionsViewContainer}>
+// <View style={styles.scoreView}></View>
+// <ScrollView style={styles.scrollViewContainer}>
+//   {this.state.questionBank.map((question, indexQ) => (
+//     <View>
+//       <Text style={styles.questionsViewContainerText}>
+//         Score: {this.state.quizScore}
+//       </Text>
+//       <Text style={styles.questionsViewContainerText}>
+//         Question: {indexQ + 1} / 4
+//       </Text>
+//       <Text style={styles.scrollviewText}>{question.question}</Text>
+//       {this.state.questionBank[indexQ].options.map(
+//         (options, indexO) => (
+//           <TouchableOpacity
+//             onPress={() => this.checkAnswer(options, question)}
+//           >
+//             <View
+//               style={{
+//                 ...styles.scrollViewItem /*,backgroundColor:cover*/,
+//               }}
+//             >
+//               <Text style={styles.scrollviewItemText}>{options}</Text>
+//             </View>
+//           </TouchableOpacity>
+//         )
+//       )}
+//     </View>
+//   ))}
+// </ScrollView>
+// <StartEndButton text="End" onPress={this.componentChange} />
+// </View>

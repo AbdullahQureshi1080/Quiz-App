@@ -17,6 +17,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30,
         padding: 10,
         borderRadius: 50,
+        alignItems:"center",
+        width:"50%"
       },
       buttonContainerText:{
         fontSize:30,
