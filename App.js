@@ -8,17 +8,17 @@ import {
   ScrollView,
 } from "react-native";
 import StartEndButton from "./components/ButtonComponent";
-import { QuestionBank } from "./constants/QuestionBank";
+import { selected } from "./constants/QuestionBank";
 import { LinearGradient } from "expo-linear-gradient";
 
 class App extends Component {
   state = {
     start: false,
-    questionBank: QuestionBank,
+    questionBank: selected,
     quizScore: 0,
     index: 0,
     disable: false,
-    // colorChange:undefined,
+    nextQuestion:false,
   };
 
   componentChange = () => {
@@ -34,16 +34,16 @@ class App extends Component {
     console.log(option);
     if (question.answer == option) {
       console.log("yes");
-      this.setState({ quizScore: this.state.quizScore + 1, disable: true });
+      this.setState({ quizScore: this.state.quizScore + 1, disable: true ,nextQuestion:true});
     } else {
       console.log("Wrong");
-      this.setState({ disable: true });
+      this.setState({ disable: true,nextQuestion:true});
     }
   };
 
   nextQuestion = () => {
-    this.setState({ index: this.state.index + 1, disable: false });
-    console.log(this.state.index)
+    this.setState({ index: this.state.index + 1, disable: false,nextQuestion:false});
+    console.log(this.state.index);
   };
 
   render() {
@@ -57,8 +57,6 @@ class App extends Component {
     );
 
     const questionsView =
-      //  cover = this.state.colorChange == undefined ? "red":"green",
-      // Score = 0,
       ((indexView = this.state.index + 1),
       (currentQuestion = this.state.questionBank[this.state.index]),
       (score = this.state.quizScore),
@@ -77,7 +75,7 @@ class App extends Component {
             {currentQuestion.options.map((options, index) => (
               <TouchableOpacity
                 disabled={this.state.disable}
-                key={currentQuestion.id}
+                // key={currentQuestion.id}
                 onPress={() => this.checkAnswer(options, currentQuestion)}
               >
                 <View
@@ -86,12 +84,13 @@ class App extends Component {
                   }}
                 >
                   <Text style={styles.questionContainerText}>{options}</Text>
+                  {console.log(options)}
                 </View>
               </TouchableOpacity>
             ))}
           </View>
           <View style={styles.nextButtonContainer}>
-            <StartEndButton text="Next" onPress={this.nextQuestion} />
+            <StartEndButton  disabled = {this.state.nextQuestion==0}text="Next" onPress={this.nextQuestion} />
           </View>
         </View>
       ));
@@ -133,7 +132,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
   },
   nextButtonContainer: {
-    alignItems: "center",
+    alignItems: "flex-end",
   },
   questionViewContainer: {
     // Kerna hai kuch tou
