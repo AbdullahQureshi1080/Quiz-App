@@ -4,7 +4,9 @@ import StartEndButton from "./components/ButtonComponent";
 import { selected } from "./constants/QuestionBank";
 
 class App extends Component {
-
+  // shuffled = QuestionBank.sort(function(){return .5 - Math.random()})};
+  // selected=shuffled.slice(0,n)
+  //  myRef = createRef([]);
   state = {
     start: false,
     questionBank: selected,
@@ -25,7 +27,10 @@ class App extends Component {
   };
 
   checkAnswer = (option,question,index) => {
+    // console.log(question.answer);
+    // console.log(option);
     if (question.answer == option) {
+      // console.log("yes");
       this.setState({
         quizScore: this.state.quizScore + 1,
         disable: true,
@@ -33,13 +38,16 @@ class App extends Component {
         currentOption:index,
         // myRef: this.state.myRef.current[index].setNativeProps({style: {backgroundColor: 'green'}})
       });
+      // this.myRef.current[index].setNativeProps({style: {backgroundColor: 'green'}})
     } else {
+      // console.log("Wrong");
       this.setState({ 
         disable: true, 
         nextQuestion: true, 
         currentOption:index,
         // myRef:this.state.myRef.current[index].setNativeProps({style: {backgroundColor: 'red'}})
       });
+      // this.myRef.current[index].setNativeProps({style: {backgroundColor: 'red'}})
     }
   };
 
@@ -50,8 +58,9 @@ class App extends Component {
       nextQuestion: false,
       // myRef:this.state.myRef.current[currentQuestion].setNativeProps({style: {backgroundColor: '#446d8b'}})
     });
+    // this.myRef.current[currentQuestion].setNativeProps({style: {backgroundColor: '#446d8b'}})
+    // console.log(this.state.index);
   };
-
   finishQuiz = () => {
     this.setState({
       start: false,
@@ -63,6 +72,7 @@ class App extends Component {
   };
 
  
+
   render() {
     const startView = (
       <View style={styles.startButtonContainer}>
