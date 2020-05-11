@@ -99,5 +99,3 @@
 n=5
 var shuffled = QuestionBank.sort(function(){return .5 - Math.random()});
 export var selected=shuffled.slice(0,n);
-// export default (n = 5) =>
-//   Promise.resolve(questionBank.sort(() => 0.5 - Math.random()).slice(0, n));

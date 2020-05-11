@@ -3,15 +3,14 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
   TouchableOpacity,
-  ScrollView,
 } from "react-native";
 import StartEndButton from "./components/ButtonComponent";
 import { selected } from "./constants/QuestionBank";
-import { LinearGradient } from "expo-linear-gradient";
 
 class App extends Component {
+  // shuffled = QuestionBank.sort(function(){return .5 - Math.random()})};
+  // selected=shuffled.slice(0,n)
   state = {
     start: false,
     questionBank: selected,
@@ -23,20 +22,20 @@ class App extends Component {
 
   componentChange = () => {
     if (this.state.start === false) {
-      this.setState({ start: true });
+      this.setState({ start: true, });
     } else {
       this.setState({ start: false });
     }
   };
 
   checkAnswer = (option, question) => {
-    console.log(question.answer);
-    console.log(option);
+    // console.log(question.answer);
+    // console.log(option);
     if (question.answer == option) {
-      console.log("yes");
+      // console.log("yes");
       this.setState({ quizScore: this.state.quizScore + 1, disable: true ,nextQuestion:true});
     } else {
-      console.log("Wrong");
+      // console.log("Wrong");
       this.setState({ disable: true,nextQuestion:true});
     }
   };
@@ -45,7 +44,16 @@ class App extends Component {
     this.setState({ index: this.state.index + 1, disable: false,nextQuestion:false});
     console.log(this.state.index);
   };
-
+  finishQuiz = () => {
+    this.setState({
+      start: false,
+      quizScore: 0,
+      index: 0,
+      disable: false,
+      nextQuestion:false,
+    });
+  };
+  
   render() {
     const startView = (
       <View style={styles.startButtonContainer}>
@@ -60,6 +68,8 @@ class App extends Component {
       ((indexView = this.state.index + 1),
       (currentQuestion = this.state.questionBank[this.state.index]),
       (score = this.state.quizScore),
+      (btnText = indexView == 5? btnText="Finish":btnText="Next"),
+      (pressEvent = indexView !=5? pressEvent=this.nextQuestion:pressEvent=this.finishQuiz),
       (
         <View style={styles.questionViewContainer}>
           <View style={styles.scoreContainer}>
@@ -90,7 +100,8 @@ class App extends Component {
             ))}
           </View>
           <View style={styles.nextButtonContainer}>
-            <StartEndButton  disabled = {this.state.nextQuestion==0}text="Next" onPress={this.nextQuestion} />
+            {/* {btnText = indexView == 5? btnText="Finish":btnText="Next"} */}
+            <StartEndButton  disabled = {this.state.nextQuestion==0} text={btnText} onPress={pressEvent} />
           </View>
         </View>
       ));
